@@ -51,13 +51,17 @@ class Examples:
     def get_digits(self):
         return self.digits
 
-    # def get_best_matching_unit(self, example, vectors):
-    #   best = []
-    #  for i in range(vectors):
-    #     sum = 0
-    #    for j in range(example):
-    #       #sum += math.pow(float(exampfloat(vectors[i][j]))
-
+    def get_best_matching_unit(self, example, vectors):
+        best = [0.0, 0]
+        for i in range(len(vectors)):
+            sum = 0
+            for j in range(len(example)):
+                sum += math.pow(example[j] - vectors[i][j], 2)
+            distance = math.sqrt(sum)
+            if best[0]< distance:
+                best[0]= distance
+                best[1] = i
+        return best[1]
 
 def main():
     if len(sys.argv) < 2:
@@ -65,8 +69,8 @@ def main():
     examples = Examples(sys.argv[1])
     table = Table(vector_size)
     vectors = table.get_vectors()
-    print("")
-
+    wow = examples.get_best_matching_unit(choice(examples.get_digits()),vectors)
+    print(wow)
 
 if __name__ == "__main__":
     main()
