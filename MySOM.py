@@ -1,4 +1,34 @@
 import sys
+from random import randint, choice, choices
+import math
+
+cols = rows = 6
+vector_size = 100
+
+
+class Table:
+    def __init__(self, size):
+        self.vector_size = size
+        # vectors = np.empty((4, 0), int)
+
+        vectors = [[0.0] * cols for _ in range(rows)]
+        for i in range(rows):
+            for j in range(cols):
+                vectors[i] = self.create_random_vector()
+
+        self._vectors = vectors
+
+    def create_random_vector(self):
+        binary = [0.0, 1.0]
+        vector = []
+        # randomly pick binary digit and concatenate to the vector
+        for i in range(self.vector_size):
+            vector.append(choice(binary))
+        # returns the random binary vector
+        return vector
+
+    def get_vectors(self):
+        return self._vectors
 
 
 class Examples:
@@ -6,22 +36,36 @@ class Examples:
         f = open(file_name, "r")
         all_file = f.read()
         f.close()
+        examples = [[0.0] * vector_size for _ in range(vector_size)]
         all_file = all_file.replace(" ", "")
         all_file = all_file.replace("\t", "")
         digits = all_file.split("\n\n")
         for i, digit in enumerate(digits):
             digits[i] = digit.replace("\n", "")
-        self.digits = digits
+            examples[i] = list()
+            for new_digit in digits[i]:
+                examples[i].append(float(new_digit))
+
+        self.digits = examples
 
     def get_digits(self):
         return self.digits
+
+    # def get_best_matching_unit(self, example, vectors):
+    #   best = []
+    #  for i in range(vectors):
+    #     sum = 0
+    #    for j in range(example):
+    #       #sum += math.pow(float(exampfloat(vectors[i][j]))
 
 
 def main():
     if len(sys.argv) < 2:
         print('error')
     examples = Examples(sys.argv[1])
-    print(examples.get_digits())
+    table = Table(vector_size)
+    vectors = table.get_vectors()
+    print("")
 
 
 if __name__ == "__main__":
