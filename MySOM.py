@@ -30,6 +30,19 @@ class Table:
     def get_vectors(self):
         return self._vectors
 
+    def get_best_matching_unit(self, example):
+        vectors = self._vectors
+        best = [0.0, 0]
+        for i in range(len(vectors)):
+            sum = 0
+            for j in range(len(example)):
+                sum += math.pow(example[j] - vectors[i][j], 2)
+            distance = math.sqrt(sum)
+            if best[0] < distance:
+                best[0] = distance
+                best[1] = i
+        return best[1]
+
 
 class Examples:
     def __init__(self, file_name):
@@ -51,26 +64,21 @@ class Examples:
     def get_digits(self):
         return self.digits
 
-    def get_best_matching_unit(self, example, vectors):
-        best = [0.0, 0]
-        for i in range(len(vectors)):
-            sum = 0
-            for j in range(len(example)):
-                sum += math.pow(example[j] - vectors[i][j], 2)
-            distance = math.sqrt(sum)
-            if best[0]< distance:
-                best[0]= distance
-                best[1] = i
-        return best[1]
 
 def main():
     if len(sys.argv) < 2:
         print('error')
     examples = Examples(sys.argv[1])
     table = Table(vector_size)
-    vectors = table.get_vectors()
-    wow = examples.get_best_matching_unit(choice(examples.get_digits()),vectors)
-    print(wow)
+    # vectors = table.get_vectors()
+    for i in range(len(examples.get_digits())):
+        random_example = choice(examples.get_digits())
+        index_of_best = table.get_best_matching_unit(random_example)
+        # todo update vectors[index_of_best] and 3 neighborhoods
+    # print(vectors)
+    # todo make function that returns how good is this map (a number)
+    # todo draw map
+
 
 if __name__ == "__main__":
     main()
