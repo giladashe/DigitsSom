@@ -9,8 +9,7 @@ vector_size = 100
 class Table:
     def __init__(self, size):
         self.vector_size = size
-        # vectors = np.empty((4, 0), int)
-
+        # create random vectors
         vectors = [[0.0] * cols for _ in range(rows)]
         for i in range(rows):
             for j in range(cols):
@@ -18,6 +17,7 @@ class Table:
 
         self._vectors = vectors
 
+    # creates a random binary vector
     def create_random_vector(self):
         binary = [0.0, 1.0]
         vector = []
@@ -30,6 +30,7 @@ class Table:
     def get_vectors(self):
         return self._vectors
 
+    # gets the BMU - the best matching unit for given example
     def get_best_matching_unit(self, example):
         vectors = self._vectors
         best = [0.0, 0]
@@ -46,6 +47,7 @@ class Table:
 
 class Examples:
     def __init__(self, file_name):
+        # gets all examples from file and arrange them in an array
         f = open(file_name, "r")
         all_file = f.read()
         f.close()
@@ -68,17 +70,17 @@ class Examples:
 def main():
     if len(sys.argv) < 2:
         print('error')
+        return
     examples = Examples(sys.argv[1])
     table = Table(vector_size)
-    # vectors = table.get_vectors()
     rounds = len(examples.get_digits())
+    # todo how many rounds? maybe decrease alpha and/or neighborhood parameter
     for i in range(rounds):
         the_examples = examples.get_digits()
         shuffle(the_examples)
         for example in the_examples:
             index_of_best = table.get_best_matching_unit(example)
         # todo update vectors[index_of_best] and 3 neighborhoods
-    # print(vectors)
     # todo make function that returns how good is this map (a number)
     # todo draw map
 
