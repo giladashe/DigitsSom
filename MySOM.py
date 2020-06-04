@@ -1,5 +1,5 @@
 import sys
-from random import randint, choice, choices
+from random import randint, choice, choices, shuffle
 import math
 
 cols = rows = 6
@@ -71,9 +71,12 @@ def main():
     examples = Examples(sys.argv[1])
     table = Table(vector_size)
     # vectors = table.get_vectors()
-    for i in range(len(examples.get_digits())):
-        random_example = choice(examples.get_digits())
-        index_of_best = table.get_best_matching_unit(random_example)
+    rounds = len(examples.get_digits())
+    for i in range(rounds):
+        the_examples = examples.get_digits()
+        shuffle(the_examples)
+        for example in the_examples:
+            index_of_best = table.get_best_matching_unit(example)
         # todo update vectors[index_of_best] and 3 neighborhoods
     # print(vectors)
     # todo make function that returns how good is this map (a number)
