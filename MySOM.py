@@ -1,5 +1,5 @@
 import sys
-from random import randint, choice, choices, shuffle
+from random import randint, choice, choices, shuffle, uniform
 import math
 
 cols = rows = 6
@@ -19,11 +19,10 @@ class Table:
 
     # creates a random binary vector
     def create_random_vector(self):
-        binary = [0.0, 1.0]
         vector = []
         # randomly pick binary digit and concatenate to the vector
         for i in range(self.vector_size):
-            vector.append(choice(binary))
+            vector.append(uniform(0, 1))
         # returns the random binary vector
         return vector
 
